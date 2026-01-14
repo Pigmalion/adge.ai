@@ -1,0 +1,96 @@
+.ad-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .ad-header {
+    padding: 15px;
+    border-bottom: 1px solid #e4e6eb;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .ad-id {
+      font-size: 12px;
+      color: #65676b;
+      font-weight: 600;
+    }
+
+    .ad-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      width: fit-content;
+
+      &.active {
+        background: #e7f3ff;
+        color: #42b72a;
+      }
+
+      &.inactive {
+        background: #f0f2f5;
+        color: #8a8d91;
+      }
+    }
+
+    .multiple-versions-badge {
+      font-size: 11px;
+      color: #1877f2;
+      margin-top: 4px;
+    }
+  }
+
+  .ad-info {
+    padding: 15px;
+    border-bottom: 1px solid #e4e6eb;
+
+    .ad-platforms {
+      font-size: 14px;
+      color: #1c1e21;
+      margin-bottom: 8px;
+
+      strong {
+        color: #65676b;
+      }
+    }
+
+    .ad-dates {
+      font-size: 12px;
+      color: #65676b;
+    }
+  }
+
+  .ad-asset {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f2f5;
+    min-height: 200px;
+
+    img,
+    video {
+      max-width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+    }
+  }
+
+  .no-asset {
+    padding: 40px;
+    text-align: center;
+    color: #8a8d91;
+    background: #f0f2f5;
+  }
+}
+
+

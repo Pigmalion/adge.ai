@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: adge-ai-server
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - DB_HOST=${DB_HOST:-host.docker.internal}
+      - DB_PORT=${DB_PORT:-5433}
+      - DB_NAME=${DB_NAME:-tempadsdb}
+      - DB_USER=${DB_USER:-app_user}
+      - DB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./scraper/assets:/app/scraper/assets:ro
+    networks:
+      - adge-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: adge-ai-client
+    ports:
+      - "3000:80"
+    depends_on:
+      server:
+        condition: service_healthy
+    networks:
+      - adge-network
+    restart: unless-stopped
+
+networks:
+  adge-network:
+    driver: bridge
+
+

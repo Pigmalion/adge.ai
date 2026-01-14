@@ -1,0 +1,30 @@
+{
+  "name": "adge.ai",
+  "version": "0.0.1",
+  "description": "Web scraper with Node.js server and React UI",
+  "main": "server/dist/index.js",
+  "scripts": {
+    "build": "tsc --project server/tsconfig.json",
+    "start": "node server/dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only server/index.ts",
+    "client": "cd client && npm start",
+    "client:build": "cd client && npm run build",
+    "run-scraper": "cd scraper && python3 scraper.py",
+    "fs-docker-run": "docker-compose up -d --build && echo '✅ Full stack started!' && echo '📊 Backend: http://localhost:3001' && echo '🎨 Frontend: http://localhost:3000' && echo '📝 View logs: npm run docker:logs'"
+  },
+  "keywords": ["scraper", "web-scraping", "react", "node"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/cors": "^2.8.13",
+    "@types/node": "^20.5.0",
+    "typescript": "^5.1.6",
+    "ts-node-dev": "^2.0.0"
+  }
+}
+
