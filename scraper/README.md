@@ -29,25 +29,31 @@ sudo apt-get install chromium-chromedriver
 **Windows:**
 Download from https://chromedriver.chromium.org/ and add to PATH
 
-### 3. Configure Database
+### 3. Configure Environment Variables
 
-Create a `.env` file in the `scraper/` directory:
+Create a `.env` file in the `scraper/` directory with the following variables:
 
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your PostgreSQL credentials:
-
-```
+```env
 DB_HOST=localhost
 DB_PORT=5433
-DB_NAME=tempAdsDB
+DB_NAME=tempadsdb
 DB_USER=app_user
 DB_PASSWORD=your_password_here
 HEADLESS=true
 MAX_ADS=50
 ```
+
+#### Environment Variables Reference
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `DB_HOST` | PostgreSQL database host | Yes | `localhost` |
+| `DB_PORT` | PostgreSQL database port | Yes | `5432` |
+| `DB_NAME` | PostgreSQL database name | Yes | `tempAdsDB` |
+| `DB_USER` | PostgreSQL database user | Yes | `app_user` |
+| `DB_PASSWORD` | PostgreSQL database password | Yes | - |
+| `HEADLESS` | Run Chrome in headless mode (`true` or `false`) | No | `true` |
+| `MAX_ADS` | Maximum number of ads to scrape | No | `50` |
 
 ### 4. Create Database
 

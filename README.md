@@ -10,11 +10,13 @@ adge.ai/
 │   ├── scraper.py    # Main scraper script
 │   ├── assets/       # Downloaded ad assets (images/videos)
 │   └── requirements.txt
-├── server/           # Node.js TypeScript backend
+├── server/           # Node.js TypeScript backend (API-only)
 │   ├── src/
 │   │   ├── config/   # Database configuration
+│   │   ├── controllers/ # Request handlers
+│   │   ├── middlewares/ # Validation and error handling
+│   │   ├── routes/   # API route definitions
 │   │   ├── services/ # Business logic
-│   │   ├── routes/   # API routes
 │   │   └── types/     # TypeScript types
 │   └── Dockerfile
 ├── client/           # React TypeScript frontend
@@ -25,6 +27,8 @@ adge.ai/
 │   └── Dockerfile
 └── docker-compose.yml
 ```
+
+**Architecture**: The server and client are separate services. The server is a pure API (no UI serving), and the client is a standalone React application. They communicate via HTTP API calls.
 
 ## Features
 
@@ -125,22 +129,38 @@ python3 scraper.py
 
 ### Production with Docker
 
+Run the full stack (backend + frontend):
+
 ```bash
-docker-compose up --build
+npm run fs-docker-run
+```
+
+Or manually:
+
+```bash
+docker-compose up -d --build
 ```
 
 Access:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:3001
 
+**Note**: Make sure to set `DB_PASSWORD` environment variable for database connection:
+```bash
+export DB_PASSWORD=your_password
+npm run fs-docker-run
+```
+
 ## API Endpoints
 
+All endpoints are under `/api`:
+
+- `GET /api/health` - Health check endpoint
 - `GET /api/ads` - Get all ads (with optional filters)
   - Query params: `status`, `platform`, `startDate`, `endDate`, `multipleVersions`
-- `GET /api/ads/:adId` - Get specific ad
-- `GET /api/ads/stats/summary` - Get statistics
-- `GET /api/ads/assets/:type/:filename` - Serve asset files
-- `GET /api/health` - Health check
+- `GET /api/ads/:adId` - Get specific ad by Library ID
+- `GET /api/ads/stats/summary` - Get aggregated statistics
+- `GET /api/ads/assets/:type/:filename` - Serve asset files (images/videos)
 
 ## Dashboard Features
 
@@ -154,6 +174,21 @@ Access:
   - Date range
   - Multiple versions toggle
 - **Ad Grid**: Display ads with assets, status, platforms, dates
+
+## NPM Scripts
+
+### Development
+- `npm run dev` - Start backend server in development mode
+- `npm run client` - Start frontend in development mode
+- `npm run scraper` - Run the Python scraper
+
+### Docker
+- `npm run fs-docker-run` - Build and start full stack (backend + frontend) in Docker
+- `npm run docker:build` - Build Docker images
+- `npm run docker:up` - Start containers
+- `npm run docker:down` - Stop containers
+- `npm run docker:logs` - View logs from all services
+- `npm run docker:ps` - Show container status
 
 ## Technologies
 
