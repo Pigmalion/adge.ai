@@ -42,7 +42,10 @@ export const adsApi = {
     const match = assetPath.match(/assets\/(images|videos)\/(.+)$/);
     if (match) {
       const [, type, filename] = match;
-      return `${API_BASE_URL}/ads/assets/${type}/${filename}`;
+      // Use relative URL - works in both development (proxy) and Docker (nginx proxy)
+      // In dev: React proxy forwards /api to http://localhost:3001
+      // In Docker: Nginx proxies /api to http://server:3001
+      return `/api/ads/assets/${type}/${filename}`;
     }
     return null;
   },
