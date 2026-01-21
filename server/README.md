@@ -4,7 +4,7 @@ Node.js/Express/TypeScript backend API for the Facebook Ads Library Dashboard.
 
 ## Overview
 
-Pure RESTful API server (no UI serving) that provides endpoints for querying and managing scraped Facebook ads data stored in PostgreSQL. The server is designed to be used with a separate frontend service.
+RESTful API server that provides endpoints for querying and managing scraped Facebook ads data stored in PostgreSQL.
 
 ## Architecture
 
@@ -22,16 +22,14 @@ server/
 │   ├── controllers/     # Request handlers
 │   ├── middlewares/     # Validation and error handling
 │   ├── routes/          # API route definitions
-│   │   ├── index.ts     # Main routes aggregator
-│   │   ├── adsRoutes.ts # Ads endpoints
-│   │   └── healthRoutes.ts # Health check endpoint
 │   ├── services/        # Business logic
 │   ├── types/           # TypeScript type definitions
 │   └── index.ts         # Application entry point
 ├── dist/                # Compiled JavaScript (generated)
 ├── Dockerfile           # Docker configuration
 ├── package.json
-└── tsconfig.json
+├── tsconfig.json
+└── version.json         # Version information
 ```
 
 ## Setup
@@ -69,6 +67,7 @@ NODE_ENV=development
 | `DB_USER` | PostgreSQL database user | Yes | `app_user` |
 | `DB_PASSWORD` | PostgreSQL database password | Yes | - |
 | `PORT` | Server port number | No | `3001` |
+| `NODE_ENV` | Environment mode (`development` or `production`) | No | `development` |
 
 **Note for Docker**: When running in Docker, set `DB_HOST=host.docker.internal` to connect to the host machine's PostgreSQL.
 
@@ -97,13 +96,15 @@ npm start
 
 ## API Endpoints
 
-All endpoints are prefixed with `/api`:
-
 ### Health Check
 
 - **GET** `/api/health`
   - Returns server status and timestamp
-  - Response: `{ "status": "ok", "timestamp": "..." }`
+
+### Version
+
+- **GET** `/` or `/version`
+  - Returns version information from `version.json`
 
 ### Ads
 
@@ -134,8 +135,8 @@ All endpoints are prefixed with `/api`:
 ### Controllers
 
 Handle HTTP requests and responses:
-- `adsController.ts` - Ad-related endpoints (getAllAds, getAdById, getStats, serveAsset)
-- `healthController.ts` - Health check endpoint
+- `adsController.ts` - Ad-related endpoints
+- `versionController.ts` - Version endpoint
 
 ### Services
 
@@ -145,9 +146,7 @@ Business logic layer:
 ### Routes
 
 Route definitions with middlewares:
-- `routes/index.ts` - Main routes aggregator (exports all API routes)
 - `adsRoutes.ts` - Ad API routes
-- `healthRoutes.ts` - Health check route
 
 ### Middlewares
 
@@ -186,9 +185,6 @@ The server can be run in Docker. See the root `docker-compose.yml` for configura
 When running in Docker, ensure:
 - Database is accessible from the container (use `host.docker.internal` for local DB)
 - Asset files are mounted as a volume (see `docker-compose.yml`)
-- Set `DB_PASSWORD` environment variable (or in `.env` file)
-
-The server is API-only and does not serve the frontend. The frontend runs as a separate service.
 
 ## Troubleshooting
 

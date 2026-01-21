@@ -7,6 +7,7 @@ import { errorHandler } from './middlewares/errorHandler';
 dotenv.config();
 
 const app = express();
+// Backend always runs on port 3001
 const PORT = process.env.PORT || 3001;
 
 // Middleware

@@ -6,11 +6,12 @@
   "scripts": {
     "build": "tsc --project server/tsconfig.json",
     "start": "node server/dist/index.js",
-    "dev": "ts-node-dev --respawn --transpile-only server/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only server/src/index.ts",
     "client": "cd client && npm start",
     "client:build": "cd client && npm run build",
     "run-scraper": "cd scraper && python3 scraper.py",
-    "fs-docker-run": "docker-compose up -d --build && echo '✅ Full stack started!' && echo '📊 Backend: http://localhost:3001' && echo '🎨 Frontend: http://localhost:3000' && echo '📝 View logs: npm run docker:logs'"
+    "fs-docker-run": "docker ps > /dev/null 2>&1 || (echo '❌ Docker daemon is not running. Please start Docker Desktop.' && exit 1); docker-compose up -d --build && echo '✅ Full stack started!' && echo '📊 Backend: http://localhost:3001' && echo '🎨 Frontend: http://localhost:3000' && echo '📝 View logs: npm run docker:logs'",
+    "fs-docker-stop": "docker-compose down && echo '✅ Docker containers stopped'"
   },
   "keywords": ["scraper", "web-scraping", "react", "node"],
   "author": "",
